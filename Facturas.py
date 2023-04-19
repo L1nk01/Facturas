@@ -1,34 +1,41 @@
 class Facturas:
   def __init__(self):
-    # self.empresa = empresa
-    # self.fecha = fecha
-    # self.tipoPropiedad = tipoPropiedad
-    self.tarifas = {
-      100 : 703.61,
-      200 : 1446.29,
-      300 : 2383.95,
-      400 : 3810.17,
-      500 : 5236.38,
-      600 : 6662.59,
-      700 : 8088.80,
-      800 : 11714.77,
-      900 : 13163.58,
-      1000 : 14612.40
+    global tarifas
+    tarifas = {
+      "sub200" : 5.55,
+      "sub300" : 7.88,
+      "sub700" : 11.46,
+      "over700" : 11.68
     }
 
-  def nuevaFactura(self, tarifas):
+  def nuevaFactura(self, consumo):
 
-    factura = int(input("¿Cuántos kWh consumió en el mes?"))
+    actual = 0
     resultado = 0
+    
+    while consumo > 0:
+      if consumo > 700:                             # 836
+        actual = consumo - 700                      # 136
+        resultado += actual * tarifas["over700"]
+        consumo -= actual                           # 700
 
-    def elementos(self):
-      for key, value in self.tarifas.items():
-          yield value
+      elif consumo > 300 and consumo <= 700:        # 700
+        actual = consumo - 300                      # 400
+        resultado += actual * tarifas["sub700"]
+        consumo -= actual                           # 300
 
-    while factura > 0:
-      elementos()
-      
-      factura -= 100
+      elif consumo > 200 and consumo <= 300:        # 300
+        actual = consumo - 200                      # 100
+        resultado += actual * tarifas["sub300"]
+        consumo -= actual                           # 200
+
+      elif consumo <= 200:                          # 200
+        actual = consumo                            # 200
+        resultado += actual * tarifas["sub200"]
+        consumo -= actual                           # 0
+
+    return resultado
+  
   # Fecha
   # Tarifas
   # Total

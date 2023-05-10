@@ -49,7 +49,7 @@ def main():
         
         ventanaFacturas = ttk.Toplevel(pady=(10))
         ventanaFacturas.title("Lista de Facturas")
-        ventanaFacturas.geometry("400x450")
+        ventanaFacturas.geometry("400x520")
         ventanaFacturas.resizable(False, False)
         
         # Nueva ventana
@@ -105,6 +105,12 @@ def main():
         def recargar():
             tabla.delete(*tabla.get_children())
             cargarFilas()
+            
+        def actualizar():
+            return
+        
+        def eliminar():
+            return
         
         # Tabla
         tabla = ttk.Treeview(ventanaFacturas, columns=("ID", "cliente", "fecha"), bootstyle="INFO", height="20")
@@ -116,7 +122,7 @@ def main():
         tabla.column("#0", width=0, stretch=False)
         tabla.column("ID", width="80")
         tabla.column("cliente", width="150")
-        tabla.column("fecha", width="120")
+        tabla.column("fecha", width="120") 
         
         tabla.bind("<Double-1>", factura)
         
@@ -125,12 +131,20 @@ def main():
         cargarFilas()
         
         # Widgets dentro de la ventana
-        footer = ttk.Label(ventanaFacturas, text="Haz doble clic en cualquiera de los clientes para visualizar su factura")
-        footer.pack(pady="10")
+        footer = ttk.Label(ventanaFacturas, text="Haz doble clic en cualquiera de los clientes\n para visualizar su factura", justify="center")
+        footer.pack(pady=(10, 10))
         
-        recargar = ttk.Button(ventanaFacturas, text="Recargar", command=recargar, padding=(20, 10))
-        recargar.pack(pady="5")
+        buttonContainer = ttk.Frame(ventanaFacturas)
+        buttonContainer.pack(side="bottom")
         
+        recargar = ttk.Button(buttonContainer, text="Recargar", command=recargar, padding=(20, 10))
+        recargar.pack(side="left", padx=(0, 5))
+        
+        actualizar = ttk.Button(buttonContainer, text="Actualizar", bootstyle="WARNING", command=actualizar, padding=(20, 10))
+        actualizar.pack(side="left", padx=(5, 5))
+        
+        eliminar = ttk.Button(buttonContainer, text="Eliminar", bootstyle="SECONDARY", command=eliminar, padding=(20, 10))
+        eliminar.pack(side="right", padx=(5, 0))
         
     # Widgets
     fechaActual = date.today().strftime("%d/%m/%Y")
@@ -153,13 +167,13 @@ def main():
     consumidoTitle.pack()
     
     consumido = ttk.Entry(program, width="40")
-    consumido.pack(pady="0, 30")
-    
+    consumido.pack(pady=(0, 30))
+
     generarFactura = ttk.Button(program, text="Generar Factura", padding=(20, 10), command=generarFactura)
-    generarFactura.pack(side=LEFT, padx="0, 10")
+    generarFactura.pack(side=LEFT, padx=(0, 10))
     
     verFacturas = ttk.Button(program, text="Ver Facturas", bootstyle="INFO", padding=(30, 10), command=verFacturas)
-    verFacturas.pack(side=RIGHT, padx="10, 0")
+    verFacturas.pack(side=RIGHT, padx=(10, 0))
     
     root.mainloop()
     
